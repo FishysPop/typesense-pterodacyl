@@ -1,7 +1,4 @@
-# Typesense Dockerfile for Pterodactyl
-# Multi-architecture build from binary
-
-FROM alpine:lastest
+FROM alpine:latest
 
 # Install dependencies
 RUN apk add --no-cache --update curl ca-certificates openssl bash tar
