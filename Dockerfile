@@ -1,7 +1,7 @@
 # Typesense Dockerfile for Pterodactyl
 # Based on the official Typesense image
 
-ARG TYPESENSE_VERSION=latest
+ARG TYPESENSE_VERSION=30.0.rc11
 FROM typesense/typesense:${TYPESENSE_VERSION}
 
 # Create necessary directories

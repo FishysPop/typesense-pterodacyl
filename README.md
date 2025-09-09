@@ -28,13 +28,13 @@ This repository contains all the necessary files to run Typesense as a service i
 
 ### Building the Docker Image
 
-The repository includes a GitHub Actions workflow that automatically builds and pushes the Docker image to ghcr.io/fishyspop/typesense-pterodactyl:latest (based on typesense/typesense:latest).
+The repository includes a GitHub Actions workflow that automatically builds and pushes the Docker image to ghcr.io/fishyspop/typesense-pterodactyl:30.0.rc11 (based on typesense/typesense:30.0.rc11) for both AMD64 and ARM64 architectures.
 
 You can also build the image manually using the provided Dockerfile:
 
 ```bash
 # Build the image
-docker build --build-arg TYPESENSE_VERSION=latest -t ghcr.io/fishyspop/typesense-pterodactyl:latest .
+docker build --build-arg TYPESENSE_VERSION=30.0.rc11 -t ghcr.io/fishyspop/typesense-pterodactyl:30.0.rc11 .
 ```
 
 ### Using the GitHub Workflow
@@ -45,8 +45,8 @@ The GitHub workflow will automatically build and push the Docker image when chan
 2. Configure the necessary secrets in your GitHub repository settings
 3. Push changes to the main branch to trigger the workflow
 
-The workflow builds an image based on the official Typesense image (latest) and pushes it to ghcr.io/fishyspop/typesense-pterodactyl with the following tag:
-- latest
+The workflow builds an image based on the official Typesense image (30.0.rc11) for both AMD64 and ARM64 architectures and pushes it to ghcr.io/fishyspop/typesense-pterodactyl with the following tag:
+- 30.0.rc11
 
 ## Configuration
 
