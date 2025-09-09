@@ -1,7 +1,7 @@
 # Typesense Dockerfile for Pterodactyl
 # Multi-architecture build from binary
 
-FROM alpine:3.18
+FROM alpine:lastest
 
 # Install dependencies
 RUN apk add --no-cache --update curl ca-certificates openssl bash tar
@@ -16,10 +16,14 @@ RUN ARCH=$(uname -m) && \
         echo "Unsupported architecture: $ARCH" && exit 1; \
     fi && \
     echo "Installing Typesense for architecture: $TYPESSENSE_ARCH" && \
+    echo "Downloading from: https://dl.typesense.org/releases/29.0/typesense-server-29.0-linux-$TYPESSENSE_ARCH.tar.gz" && \
     curl -L -O https://dl.typesense.org/releases/29.0/typesense-server-29.0-linux-$TYPESSENSE_ARCH.tar.gz && \
+    ls -la typesense-server-29.0-linux-$TYPESSENSE_ARCH.tar.gz && \
     tar -xzf typesense-server-29.0-linux-$TYPESSENSE_ARCH.tar.gz && \
+    ls -la && \
     mkdir -p /opt/typesense && \
     mv typesense-server /opt/typesense/ && \
+    ls -la /opt/typesense/ && \
     rm typesense-server-29.0-linux-$TYPESSENSE_ARCH.tar.gz && \
     chmod +x /opt/typesense/typesense-server
 
@@ -36,9 +40,10 @@ ENV USER=container HOME=/home/container
 # Set working directory
 WORKDIR /home/container
 
-# Copy entrypoint and startup scripts with execute permissions
-COPY --chmod=755 ./entrypoint.sh /entrypoint.sh
-COPY --chmod=755 ./startup.sh /startup.sh
+# Copy entrypoint and startup scripts
+COPY ./entrypoint.sh /entrypoint.sh
+COPY ./startup.sh /startup.sh
+RUN chmod +x /entrypoint.sh /startup.sh
 
 # Define the startup command
 CMD ["/bin/bash", "/entrypoint.sh"]

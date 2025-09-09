@@ -1,6 +1,13 @@
 #!/bin/bash
 cd /home/container
 
+# Check if startup script exists
+if [ ! -f /startup.sh ]; then
+    echo "ERROR: /startup.sh not found!"
+    ls -la /
+    exit 1
+fi
+
 # Output information
 echo "Starting Typesense server..."
 
