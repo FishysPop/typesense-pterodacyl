@@ -11,9 +11,6 @@ RUN apt-get update && apt-get install -y curl ca-certificates openssl bash
 # Create necessary directories
 RUN mkdir -p /home/container/data /etc/typesense
 
-# Copy configuration file
-COPY typesense-server.ini /etc/typesense/typesense-server.ini
-
 # Set proper permissions
 RUN chown -R typesense:typesense /home/container /etc/typesense || true
 

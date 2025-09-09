@@ -13,9 +13,9 @@
         "Typesense 30.0.rc11": "ghcr.io/fishyspop/typesense-pterodactyl:30.0.rc11"
     },
     "file_denylist": [],
-    "startup": "/opt/typesense/typesense-server --config=/etc/typesense/typesense-server.ini",
+    "startup": "typesense-server --data-dir=/mnt/server/data --api-key={{TYPESENSE_API_KEY}} --enable-cors={{TYPESENSE_ENABLE_CORS}} --port={{SERVER_PORT}}",
     "config": {
-        "files": "{\n    \"typesense-server.ini\": {\n        \"parser\": \"ini\",\n        \"find\": {\n            \"port\": \"port = {{SERVER_PORT}}\",\n            \"data-dir\": \"data-dir = /mnt/server/data\",\n            \"api-key\": \"api-key = {{TYPESENSE_API_KEY}}\",\n            \"enable-cors\": \"enable-cors = {{TYPESENSE_ENABLE_CORS}}\"\n        }\n    }\n}",
+        "files": "{}",
         "startup": "{\n    \"done\": \"Listening on\"\n}",
         "logs": "{}",
         "stop": "exit"
