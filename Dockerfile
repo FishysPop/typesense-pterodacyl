@@ -39,8 +39,6 @@ WORKDIR /home/container
 # Copy entrypoint and startup scripts
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./startup.sh /startup.sh
-RUN chmod +x /entrypoint.sh
-RUN chmod +x /startup.sh
 
 # Define the startup command
 CMD ["/bin/bash", "/entrypoint.sh"]
