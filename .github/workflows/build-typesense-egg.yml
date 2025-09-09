@@ -35,10 +35,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/fishyspop/typesense
+          images: ghcr.io/${{ github.repository_owner }}/typesense-pterodactyl
           tags: |
             type=raw,value=latest
-            type=raw,value=29.0
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -48,7 +47,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            TYPESENSE_VERSION=29.0
+            TYPESENSE_VERSION=latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
