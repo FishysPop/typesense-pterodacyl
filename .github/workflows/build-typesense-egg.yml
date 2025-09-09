@@ -17,9 +17,6 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        typesense_version: [30.0, 29.0, 28.0]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,8 +37,8 @@ jobs:
         with:
           images: ghcr.io/fishyspop/typesense
           tags: |
-            type=raw,value=${{ matrix.typesense_version }}
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest
+            type=raw,value=29.0
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -51,7 +48,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            TYPESENSE_VERSION=${{ matrix.typesense_version }}
+            TYPESENSE_VERSION=29.0
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

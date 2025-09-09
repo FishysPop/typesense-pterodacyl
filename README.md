@@ -7,7 +7,7 @@ This repository contains all the necessary files to run Typesense as a service i
 1. `typesense-egg.json` - Pterodactyl egg configuration file
 2. `Dockerfile` - Docker image definition for Typesense (based on official images)
 3. `typesense-server.ini` - Configuration file for Typesense server
-4. `.github/workflows/build-typesense-egg.yml` - GitHub Actions workflow for building and pushing multiple versions of the Docker image
+4. `.github/workflows/build-typesense-egg.yml` - GitHub Actions workflow for building and pushing the Docker image
 
 ## Prerequisites
 
@@ -26,36 +26,28 @@ This repository contains all the necessary files to run Typesense as a service i
 5. Import the `typesense-egg.json` file
 6. Configure the egg as needed
 
-### Building the Docker Images
+### Building the Docker Image
 
-The repository includes a GitHub Actions workflow that automatically builds and pushes three versions of the Docker image to ghcr.io/fishyspop/typesense:
+The repository includes a GitHub Actions workflow that automatically builds and pushes the Docker image to ghcr.io/fishyspop/typesense:29.0 (based on typesense/typesense:29.0).
 
-- v30.0 (based on typesense/typesense:30.0)
-- v29.0 (based on typesense/typesense:29.0)
-- v28.0 (based on typesense/typesense:28.0)
-
-You can also build the images manually using the provided Dockerfile:
+You can also build the image manually using the provided Dockerfile:
 
 ```bash
-# Build a specific version
-docker build --build-arg TYPESENSE_VERSION=30.0 -t ghcr.io/fishyspop/typesense:30.0 .
+# Build the image
 docker build --build-arg TYPESENSE_VERSION=29.0 -t ghcr.io/fishyspop/typesense:29.0 .
-docker build --build-arg TYPESENSE_VERSION=28.0 -t ghcr.io/fishyspop/typesense:28.0 .
 ```
 
 ### Using the GitHub Workflow
 
-The GitHub workflow will automatically build and push three versions of the Docker image when changes are made to the main branch. To use it:
+The GitHub workflow will automatically build and push the Docker image when changes are made to the main branch. To use it:
 
 1. Fork this repository
 2. Configure the necessary secrets in your GitHub repository settings
 3. Push changes to the main branch to trigger the workflow
 
-The workflow builds images based on the official Typesense images and pushes them to ghcr.io/fishyspop/typesense with the following tags:
-- 30.0
+The workflow builds an image based on the official Typesense image (v29.0) and pushes it to ghcr.io/fishyspop/typesense with the following tags:
 - 29.0
-- 28.0
-- latest (for the default branch)
+- latest
 
 ## Configuration
 
