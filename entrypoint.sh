@@ -1,12 +1,9 @@
 #!/bin/bash
 cd /home/container
 
-# Check if startup script exists
-if [ ! -f /startup.sh ]; then
-    echo "ERROR: /startup.sh not found!"
-    ls -la /
-    exit 1
-fi
+# Create data directory if it doesn't exist
+mkdir -p /home/container/data
+chmod 777 /home/container/data
 
 # Output information
 echo "Starting Typesense server..."

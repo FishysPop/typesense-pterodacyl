@@ -13,7 +13,7 @@
         "Typesense 29.0": "ghcr.io/fishyspop/typesense-pterodactyl:29.0"
     },
     "file_denylist": [],
-    "startup": "/startup.sh",
+    "startup": "/opt/typesense/typesense-server --data-dir=/home/container/data --api-key={{TYPESENSE_API_KEY}} --enable-cors={{TYPESENSE_ENABLE_CORS}} --port={{SERVER_PORT}}",
     "config": {
         "files": "{}",
         "startup": "{\n    \"done\": \"Listening on\"\n}",
