@@ -1,21 +1,30 @@
 # Typesense Dockerfile for Pterodactyl
-# Based on Alpine Linux following Pterodactyl guidelines
+# Based on the official Typesense image with Pterodactyl requirements
 
-FROM alpine:latest
+FROM typesense/typesense:0.30.0
 
-MAINTAINER Pterodactyl Software, <support@pterodactyl.io>
+# Install Pterodactyl requirements
+RUN apt-get update && apt-get install -y curl ca-certificates openssl bash \
+    && useradd --disabled-password --home /home/container container
 
-# Install dependencies and create container user
-RUN apk add --no-cache --update curl ca-certificates openssl bash \
-    && adduser --disabled-password --home /home/container container
+# Create necessary directories
+RUN mkdir -p /home/container/data /etc/typesense
 
-# Install Typesense
-RUN apk add --no-cache libc6-compat libstdc++ libgcc \
-    && curl -L -o /tmp/typesense.tar.gz https://dl.typesense.org/releases/30.0.rc11/typesense-server-30.0.rc11-amd64.tar.gz \
-    && mkdir -p /opt/typesense \
-    && tar -xzf /tmp/typesense.tar.gz -C /opt/typesense \
-    && rm /tmp/typesense.tar.gz \
-    && chmod +x /opt/typesense/typesense-server
+# Copy configuration file
+COPY typesense-server.ini /etc/typesense/typesense-server.ini
+
+# Switch to container user
+USER container
+ENV USER=container HOME=/home/container
+
+# Set working directory
+WORKDIR /home/container
+
+# Copy entrypoint script
+COPY ./entrypoint.sh /entrypoint.sh
+
+# Define the startup command
+CMD ["/bin/bash", "/entrypoint.sh"]
 
 # Switch to container user
 USER container

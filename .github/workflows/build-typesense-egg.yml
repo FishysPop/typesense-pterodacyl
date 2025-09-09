@@ -42,7 +42,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository_owner }}/typesense-pterodactyl
           tags: |
-            type=raw,value=30.0.rc11
+            type=raw,value=0.30.0
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -52,7 +52,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            TYPESENSE_VERSION=30.0.rc11
+            TYPESENSE_VERSION=0.30.0
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
