@@ -1,23 +1,31 @@
 # Typesense Dockerfile for Pterodactyl
-# Based on the official Typesense image
+# Based on Alpine Linux following Pterodactyl guidelines
 
-ARG TYPESENSE_VERSION=30.0.rc11
-FROM typesense/typesense:${TYPESENSE_VERSION}
+FROM alpine:latest
 
-# Create necessary directories
-RUN mkdir -p /home/container/data /etc/typesense
+MAINTAINER Pterodactyl Software, <support@pterodactyl.io>
 
-# Create a symlink for Pterodactyl compatibility
-RUN ln -s /mnt/server/data /home/container/data || true
+# Install dependencies and create container user
+RUN apk add --no-cache --update curl ca-certificates openssl bash \
+    && adduser --disabled-password --home /home/container container
 
-# Copy configuration file
-COPY typesense-server.ini /etc/typesense/typesense-server.ini
+# Install Typesense
+RUN apk add --no-cache libc6-compat libstdc++ libgcc \
+    && curl -L -o /tmp/typesense.tar.gz https://dl.typesense.org/releases/30.0.rc11/typesense-server-30.0.rc11-amd64.tar.gz \
+    && mkdir -p /opt/typesense \
+    && tar -xzf /tmp/typesense.tar.gz -C /opt/typesense \
+    && rm /tmp/typesense.tar.gz \
+    && chmod +x /opt/typesense/typesense-server
+
+# Switch to container user
+USER container
+ENV USER=container HOME=/home/container
 
 # Set working directory
 WORKDIR /home/container
 
-# Expose the default Typesense port
-EXPOSE 8108
+# Copy entrypoint script
+COPY ./entrypoint.sh /entrypoint.sh
 
 # Define the startup command
-CMD ["/opt/typesense/typesense-server", "--config=/etc/typesense/typesense-server.ini"]
+CMD ["/bin/bash", "/entrypoint.sh"]
