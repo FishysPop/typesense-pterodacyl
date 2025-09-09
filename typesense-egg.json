@@ -10,10 +10,10 @@
     "description": "Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use. It is an open source alternative to Algolia and an easier-to-use alternative to ElasticSearch.",
     "features": null,
     "docker_images": {
-        "Typesense 30.0.rc11": "ghcr.io/fishyspop/typesense-pterodactyl:30.0.rc11"
+        "Typesense 29.0": "ghcr.io/fishyspop/typesense-pterodactyl:29.0"
     },
     "file_denylist": [],
-    "startup": "typesense-server --data-dir=/mnt/server/data --api-key={{TYPESENSE_API_KEY}} --enable-cors={{TYPESENSE_ENABLE_CORS}} --port={{SERVER_PORT}}",
+    "startup": "/opt/typesense/typesense-server --data-dir=/mnt/server/data --api-key={{TYPESENSE_API_KEY}} --enable-cors={{TYPESENSE_ENABLE_CORS}} --port={{SERVER_PORT}}",
     "config": {
         "files": "{}",
         "startup": "{\n    \"done\": \"Listening on\"\n}",
@@ -22,8 +22,8 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!/bin/bash\n# Typesense Installation Script\n#\n# Server Files: /mnt/server\n\necho \"Starting Typesense installation...\"\ncd /mnt/server || { echo \"Failed to change directory to /mnt/server\"; exit 1; }\n\necho \"Creating necessary directories...\"\nmkdir -p /mnt/server/data\n\necho \"Setting permissions for data directory...\"\nchmod 777 /mnt/server/data\necho \"-----------------------------------------\"\necho \"Installation completed...\"\necho \"-----------------------------------------\"",
-            "container": "alpine:3.18",
+            "script": "#!/bin/bash\n# Typesense Installation Script\n#\n# Server Files: /mnt/server\n\necho \"Starting Typesense installation...\"\nset -x  # Enable debugging\ncd /mnt/server || { echo \"Failed to change directory to /mnt/server\"; exit 1; }\n\necho \"Creating necessary directories...\"\nmkdir -p /mnt/server/data || { echo \"Failed to create data directory\"; exit 1; }\n\necho \"Setting permissions for data directory...\"\nchmod 777 /mnt/server/data || { echo \"Failed to set permissions\"; exit 1; }\n\nls -la /mnt/server/\necho \"-----------------------------------------\"\necho \"Installation completed...\"\necho \"-----------------------------------------\"",
+            "container": "ubuntu:20.04",
             "entrypoint": "bash"
         }
     },

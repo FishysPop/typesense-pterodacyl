@@ -1,21 +1,37 @@
 # Typesense Dockerfile for Pterodactyl
-# Based on the official Typesense image with Pterodactyl requirements
+# Multi-architecture build from binary
 
-FROM typesense/typesense:30.0.rc11
+FROM alpine:latest
 
-MAINTAINER Pterodactyl Software, <support@pterodactyl.io>
+# Install dependencies
+RUN apk add --no-cache --update curl ca-certificates openssl bash tar
 
-# Install Pterodactyl requirements
-RUN apt-get update && apt-get install -y curl ca-certificates openssl bash
+# Detect architecture and install appropriate Typesense binary
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "x86_64" ]; then \
+        TYPESSENSE_ARCH="amd64"; \
+    elif [ "$ARCH" = "aarch64" ]; then \
+        TYPESSENSE_ARCH="arm64"; \
+    else \
+        echo "Unsupported architecture: $ARCH" && exit 1; \
+    fi && \
+    echo "Installing Typesense for architecture: $TYPESSENSE_ARCH" && \
+    curl -L -O https://dl.typesense.org/releases/29.0/typesense-server-29.0-linux-$TYPESSENSE_ARCH.tar.gz && \
+    tar -xzf typesense-server-29.0-linux-$TYPESSENSE_ARCH.tar.gz && \
+    mkdir -p /opt/typesense && \
+    mv typesense-server /opt/typesense/ && \
+    rm typesense-server-29.0-linux-$TYPESSENSE_ARCH.tar.gz && \
+    chmod +x /opt/typesense/typesense-server
+
+# Create container user
+RUN adduser --disabled-password --home /home/container container
 
 # Create necessary directories
 RUN mkdir -p /home/container/data /etc/typesense
 
-# Set proper permissions
-RUN chown -R typesense:typesense /home/container /etc/typesense || true
-
-# Set environment variables
-ENV USER=typesense HOME=/home/container
+# Switch to container user
+USER container
+ENV USER=container HOME=/home/container
 
 # Set working directory
 WORKDIR /home/container

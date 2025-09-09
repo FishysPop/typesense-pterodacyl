@@ -7,7 +7,7 @@ mkdir -p /mnt/server/data
 chmod 777 /mnt/server/data
 
 # Set proper ownership
-chown -R typesense:typesense /mnt/server/data 2>/dev/null || true
+chown -R container:container /mnt/server/data 2>/dev/null || true
 
 # Output information
 echo "Starting Typesense server..."
