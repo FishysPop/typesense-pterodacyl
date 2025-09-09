@@ -19,6 +19,9 @@ enable-cors = {{TYPESENSE_ENABLE_CORS}}
 EOF
 fi
 
+# Set proper ownership
+chown -R typesense:typesense /mnt/server/data /etc/typesense 2>/dev/null || true
+
 # Output information
 echo "Starting Typesense server..."
 
