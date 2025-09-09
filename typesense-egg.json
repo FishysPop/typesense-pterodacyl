@@ -15,14 +15,14 @@
     "file_denylist": [],
     "startup": "/opt/typesense/typesense-server --config=/etc/typesense/typesense-server.ini",
     "config": {
-        "files": "{\n    \"typesense-server.ini\": {\n        \"parser\": \"ini\",\n        \"find\": {\n            \"port\": \"port = {{SERVER_PORT}}\",\n            \"data-dir\": \"data-dir = /home/container/data\",\n            \"api-key\": \"api-key = {{TYPESENSE_API_KEY}}\",\n            \"enable-cors\": \"enable-cors = true\"\n        }\n    }\n}",
+        "files": "{\n    \"typesense-server.ini\": {\n        \"parser\": \"ini\",\n        \"find\": {\n            \"port\": \"port = {{SERVER_PORT}}\",\n            \"data-dir\": \"data-dir = /mnt/server/data\",\n            \"api-key\": \"api-key = {{TYPESENSE_API_KEY}}\",\n            \"enable-cors\": \"enable-cors = true\"\n        }\n    }\n}",
         "startup": "{\n    \"done\": \"Listening on\"\n}",
         "logs": "{}",
         "stop": "exit"
     },
     "scripts": {
         "installation": {
-            "script": "#!/bin/bash\n# Typesense Installation Script\n#\n# Server Files: /mnt/server\n\ncd /mnt/server\n\n# Create necessary directories\nmkdir -p /mnt/server/data\nmkdir -p /etc/typesense\n\n# Create config file\ncat > /etc/typesense/typesense-server.ini << 'EOF'\n[typesense]\nport = 8108\ndata-dir = /home/container/data\napi-key = xyz\nenable-cors = true\nEOF\n\necho \"-----------------------------------------\"\necho \"Installation completed...\"\necho \"-----------------------------------------\"",
+            "script": "#!/bin/bash\n# Typesense Installation Script\n#\n# Server Files: /mnt/server\n\ncd /mnt/server\n\n# Create necessary directories\nmkdir -p /mnt/server/data\nmkdir -p /etc/typesense\n\n# Create config file\ncat > /etc/typesense/typesense-server.ini << 'EOF'\n[typesense]\nport = 8108\ndata-dir = /mnt/server/data\napi-key = xyz\nenable-cors = true\nEOF\n\necho \"-----------------------------------------\"\necho \"Installation completed...\"\necho \"-----------------------------------------\"",
             "container": "alpine:3.18",
             "entrypoint": "bash"
         }
@@ -35,14 +35,14 @@
             "default_value": "xyz",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string|min:10",
+            "rules": "required|string|min:3",
             "field_type": "text"
         },
         {
             "name": "Enable CORS",
             "description": "Enable Cross-Origin Resource Sharing (CORS)",
             "env_variable": "TYPESENSE_ENABLE_CORS",
-            "default_value": "true",
+            "default_value": "1",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|boolean",

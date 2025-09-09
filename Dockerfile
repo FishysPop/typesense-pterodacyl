@@ -7,6 +7,9 @@ FROM typesense/typesense:${TYPESENSE_VERSION}
 # Create necessary directories
 RUN mkdir -p /home/container/data /etc/typesense
 
+# Create a symlink for Pterodactyl compatibility
+RUN ln -s /mnt/server/data /home/container/data || true
+
 # Copy configuration file
 COPY typesense-server.ini /etc/typesense/typesense-server.ini
 
