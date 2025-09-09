@@ -3,11 +3,18 @@ cd /home/container
 
 # Create necessary directories
 echo "Creating necessary directories..."
-mkdir -p /mnt/server/data
-chmod 777 /mnt/server/data
+mkdir -p /home/container/data
+chmod 777 /home/container/data
 
 # Set proper ownership
-chown -R container:container /mnt/server/data 2>/dev/null || true
+chown -R container:container /home/container/data 2>/dev/null || true
+
+# Check if Typesense binary exists
+if [ ! -f /opt/typesense/typesense-server ]; then
+    echo "ERROR: Typesense binary not found at /opt/typesense/typesense-server"
+    ls -la /opt/typesense/ 2>/dev/null || echo "ERROR: /opt/typesense/ directory does not exist"
+    exit 1
+fi
 
 # Output information
 echo "Starting Typesense server..."
