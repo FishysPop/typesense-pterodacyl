@@ -1,7 +1,7 @@
 # Typesense Dockerfile for Pterodactyl
 # Multi-architecture build from binary
 
-FROM alpine:latest
+FROM alpine:3.18
 
 # Install dependencies
 RUN apk add --no-cache --update curl ca-certificates openssl bash tar
@@ -36,8 +36,10 @@ ENV USER=container HOME=/home/container
 # Set working directory
 WORKDIR /home/container
 
-# Copy entrypoint script
+# Copy entrypoint and startup scripts
 COPY ./entrypoint.sh /entrypoint.sh
+COPY ./startup.sh /startup.sh
+RUN chmod +x /entrypoint.sh /startup.sh
 
 # Define the startup command
 CMD ["/bin/bash", "/entrypoint.sh"]

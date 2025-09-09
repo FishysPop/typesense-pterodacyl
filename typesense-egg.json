@@ -13,7 +13,7 @@
         "Typesense 29.0": "ghcr.io/fishyspop/typesense-pterodactyl:29.0"
     },
     "file_denylist": [],
-    "startup": "/opt/typesense/typesense-server --data-dir=/home/container/data --api-key={{TYPESENSE_API_KEY}} --enable-cors={{TYPESENSE_ENABLE_CORS}} --port={{SERVER_PORT}}",
+    "startup": "/startup.sh",
     "config": {
         "files": "{}",
         "startup": "{\n    \"done\": \"Listening on\"\n}",
@@ -23,7 +23,7 @@
     "scripts": {
         "installation": {
             "script": "#!/bin/bash\n# Typesense Installation Script\n#\n# Server Files: /mnt/server\n\necho \"Starting Typesense installation...\"\nset -x  # Enable debugging\ncd /mnt/server || { echo \"Failed to change directory to /mnt/server\"; exit 1; }\n\necho \"Creating necessary directories...\"\nmkdir -p /home/container/data || { echo \"Failed to create data directory\"; exit 1; }\n\necho \"Setting permissions for data directory...\"\nchmod 777 /home/container/data || { echo \"Failed to set permissions\"; exit 1; }\n\nls -la /home/container/\necho \"-----------------------------------------\"\necho \"Installation completed...\"\necho \"-----------------------------------------\"",
-            "container": "ubuntu:20.04",
+            "container": "alpine:3.18",
             "entrypoint": "bash"
         }
     },
