@@ -1,0 +1,54 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PANEL",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2025-09-09T11:26:0+00:00",
+    "name": "Typesense",
+    "author": "typesense@pterodactyl-eggs.com",
+    "description": "Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use. It is an open source alternative to Algolia and an easier-to-use alternative to ElasticSearch.",
+    "features": null,
+    "docker_images": {
+        "Typesense v30.0": "typesense/typesense:30.0",
+        "Typesense v29.0": "typesense/typesense:29.0",
+        "Typesense v28.0": "typesense/typesense:28.0"
+    },
+    "file_denylist": [],
+    "startup": "/opt/typesense/typesense-server --config=/etc/typesense/typesense-server.ini",
+    "config": {
+        "files": "{\n    \"typesense-server.ini\": {\n        \"parser\": \"ini\",\n        \"find\": {\n            \"port\": \"port = {{SERVER_PORT}}\",\n            \"data-dir\": \"data-dir = /home/container/data\",\n            \"api-key\": \"api-key = {{TYPESENSE_API_KEY}}\",\n            \"enable-cors\": \"enable-cors = true\"\n        }\n    }\n}",
+        "startup": "{\n    \"done\": \"Listening on\"\n}",
+        "logs": "{}",
+        "stop": "exit"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!/bin/bash\n# Typesense Installation Script\n#\n# Server Files: /mnt/server\n\ncd /mnt/server\n\n# Create necessary directories\nmkdir -p /mnt/server/data\nmkdir -p /etc/typesense\n\n# Create config file\ncat > /etc/typesense/typesense-server.ini << 'EOF'\n[typesense]\nport = 8108\ndata-dir = /home/container/data\napi-key = xyz\nenable-cors = true\nEOF\n\necho \"-----------------------------------------\"\necho \"Installation completed...\"\necho \"-----------------------------------------\"",
+            "container": "alpine:3.18",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Typesense API Key",
+            "description": "The admin API key for Typesense. Min 40 characters recommended.",
+            "env_variable": "TYPESENSE_API_KEY",
+            "default_value": "xyz",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|min:10",
+            "field_type": "text"
+        },
+        {
+            "name": "Enable CORS",
+            "description": "Enable Cross-Origin Resource Sharing (CORS)",
+            "env_variable": "TYPESENSE_ENABLE_CORS",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "boolean"
+        }
+    ]
+}
