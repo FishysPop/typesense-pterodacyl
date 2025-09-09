@@ -1,7 +1,8 @@
 # Typesense Dockerfile for Pterodactyl
 # Based on the official Typesense image
 
-FROM typesense/typesense:30.0
+ARG TYPESENSE_VERSION=30.0
+FROM typesense/typesense:${TYPESENSE_VERSION}
 
 # Create necessary directories
 RUN mkdir -p /home/container/data /etc/typesense

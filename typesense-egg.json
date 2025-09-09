@@ -10,9 +10,9 @@
     "description": "Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use. It is an open source alternative to Algolia and an easier-to-use alternative to ElasticSearch.",
     "features": null,
     "docker_images": {
-        "Typesense v30.0": "typesense/typesense:30.0",
-        "Typesense v29.0": "typesense/typesense:29.0",
-        "Typesense v28.0": "typesense/typesense:28.0"
+        "Typesense v30.0": "ghcr.io/fishyspop/typesense:30.0",
+        "Typesense v29.0": "ghcr.io/fishyspop/typesense:29.0",
+        "Typesense v28.0": "ghcr.io/fishyspop/typesense:28.0"
     },
     "file_denylist": [],
     "startup": "/opt/typesense/typesense-server --config=/etc/typesense/typesense-server.ini",

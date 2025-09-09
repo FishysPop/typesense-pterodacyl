@@ -17,9 +17,12 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        typesense_version: [30.0, 29.0, 28.0]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -35,13 +38,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/${{ github.repository }}/typesense-egg
+          images: ghcr.io/fishyspop/typesense
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=sha
+            type=raw,value=${{ matrix.typesense_version }}
+            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -50,11 +50,13 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            TYPESENSE_VERSION=${{ matrix.typesense_version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Upload Typesense Egg JSON
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: typesense-egg
           path: typesense-egg.json
